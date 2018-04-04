@@ -1,0 +1,5 @@
+E:\old\xframework\trunk\XFramework\XFramework\bin\Debug\XFramework.dll
+E:\old\xframework\trunk\XFramework\XFramework\bin\Debug\XFramework.pdb
+E:\old\xframework\trunk\XFramework\XFramework\obj\Debug\XFramework.csprojResolveAssemblyReference.cache
+E:\old\xframework\trunk\XFramework\XFramework\obj\Debug\XFramework.dll
+E:\old\xframework\trunk\XFramework\XFramework\obj\Debug\XFramework.pdb
