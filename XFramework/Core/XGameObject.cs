@@ -24,7 +24,9 @@ namespace XFramework
             this.AddComponents(components);
         }
 
-        private XComponent AddComponentInternal(Type type)
+
+
+        internal XComponent AddComponentInternal(Type type)
         {
             if (m_XComponents == null)
                 m_XComponents = new List<XComponent>();
@@ -33,7 +35,7 @@ namespace XFramework
             return component;
         }
 
-        public XComponent GetComponentInternal(Type type)
+        internal XComponent GetComponentInternal(Type type)
         {
             if (m_XComponents == null)
                 return null;
@@ -44,7 +46,7 @@ namespace XFramework
             return null;
         }
 
-        public XComponent[] GetComponentsInternal(Type type)
+        internal XComponent[] GetComponentsInternal(Type type)
         {
             if (m_XComponents == null)
                 return null;
@@ -99,6 +101,38 @@ namespace XFramework
         public T[] GetComponents<T>() where T : XComponent
         {
             return this.GetComponentsInternal(typeof(T)) as T[];
+        }
+
+        internal void Update()
+        {
+            if (m_XComponents == null || m_XComponents.Count == 0)
+                return;
+            int count = m_XComponents.Count;
+            XComponent component;
+            for (int i = 0; i < count; i++)
+            {
+                component = m_XComponents[i];
+                if (!component.Enabled)
+                    continue;
+                if (!component.isStart)
+                    component.OnStart();
+                component.OnUpdate();
+            }
+        }
+
+        internal void LateUpdate()
+        {
+            if (m_XComponents == null || m_XComponents.Count == 0)
+                return;
+            int count = m_XComponents.Count;
+            XComponent component;
+            for (int i = 0; i < count; i++)
+            {
+                component = m_XComponents[i];
+                if (!component.Enabled)
+                    continue;
+                component.OnLateUpdate();
+            }
         }
     }
 }
