@@ -6,8 +6,6 @@ namespace XFramework
 {
     public class XGameObject : XObject
     {
-        private List<XComponent> m_XComponents;
-
         public XGameObject()
             : this("XGameObject")
         {
@@ -28,37 +26,17 @@ namespace XFramework
 
         internal XComponent AddComponentInternal(Type type)
         {
-            if (m_XComponents == null)
-                m_XComponents = new List<XComponent>();
-            XComponent component = (XComponent)Activator.CreateInstance(type, this);
-            m_XComponents.Add(component);
-            return component;
+            return XComponentManager.AddGameObjectComponent(this, type);
         }
 
         internal XComponent GetComponentInternal(Type type)
         {
-            if (m_XComponents == null)
-                return null;
-            int count = m_XComponents.Count;
-            for (int i = 0; i < count; i++)
-                if (m_XComponents[i].GetType() == type)
-                    return m_XComponents[i];
-            return null;
+            return XComponentManager.GetGameObjectComponent(this, type);
         }
 
         internal XComponent[] GetComponentsInternal(Type type)
         {
-            if (m_XComponents == null)
-                return null;
-            List<XComponent> list = null;
-            int count = m_XComponents.Count;
-            for (int i = 0; i < count; i++)
-                if (m_XComponents[i].GetType() == type)
-                {
-                    if (list == null)list = new List<XComponent>();
-                    list.Add(m_XComponents[i]);
-                } 
-            return list.ToArray();
+            return XComponentManager.GetGameObjectComponents(this, type);
         }
 
         public void AddComponents(Type[] components)
@@ -101,38 +79,6 @@ namespace XFramework
         public T[] GetComponents<T>() where T : XComponent
         {
             return this.GetComponentsInternal(typeof(T)) as T[];
-        }
-
-        internal void Update()
-        {
-            if (m_XComponents == null || m_XComponents.Count == 0)
-                return;
-            int count = m_XComponents.Count;
-            XComponent component;
-            for (int i = 0; i < count; i++)
-            {
-                component = m_XComponents[i];
-                if (!component.Enabled)
-                    continue;
-                if (!component.isStart)
-                    component.OnStart();
-                component.OnUpdate();
-            }
-        }
-
-        internal void LateUpdate()
-        {
-            if (m_XComponents == null || m_XComponents.Count == 0)
-                return;
-            int count = m_XComponents.Count;
-            XComponent component;
-            for (int i = 0; i < count; i++)
-            {
-                component = m_XComponents[i];
-                if (!component.Enabled)
-                    continue;
-                component.OnLateUpdate();
-            }
         }
     }
 }

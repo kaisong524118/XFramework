@@ -6,13 +6,12 @@ namespace XFramework
     public class XComponent : XObject
     {
         private XGameObject     m_XGameObject   = null;
-        private bool            m_Enabled       = false;
+        private bool            m_Enabled       = true;
         private bool            m_isStart = false;
 
-        internal XComponent(XGameObject xgameObject)
+        public virtual void OnAwake()
         {
-            this.m_Enabled      = true;
-            this.m_XGameObject  = xgameObject;
+
         }
 
         public virtual void OnStart()
@@ -35,15 +34,22 @@ namespace XFramework
 
         }
 
-        public bool Enabled
+        public bool enabled
         {
             get { return m_Enabled; }
             set { m_Enabled = value; }
         }
 
-        public XFramework.XGameObject XGameObject
+
+        public XFramework.XGameObject xGameObject
         {
             get { return m_XGameObject; }
+        }
+
+        internal XFramework.XGameObject XGameObject
+        {
+            get { return m_XGameObject; }
+            set { m_XGameObject = value; }
         }
 
         internal bool isStart
